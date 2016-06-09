@@ -2,7 +2,7 @@
 &copy; 2016 Jan Kruse
 
 ## Abstract
-DropboxViewProxy is a PHP and Bootstrap based Web-Application, that connectes to a Dropbox using the Dropbox PHP API to view it's content.
+DropboxViewProxy is a PHP and Bootstrap based Web-Application, that connects to a Dropbox using the Dropbox PHP API to view it's content.
 DropboxViewProxy is though to be a lightweight user interface to traverse through a Dropbox and to download files.
 It is free of trackers, pop-ups and other user-annoying stuff.
 
