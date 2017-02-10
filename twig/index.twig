@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/custom.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        <br/>
+        <br/>
+        <center><h1>{{ title }}</h1></center>
+        <br/>
+        <br/>
+        <br/>
+        <div class="container">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+        <div class="table table-responsive table-striped">
+            <table class="table">
+                <thead>
+                    <th>Path</th>
+                </thead>
+                <tbody>
+                    {% if meta.path != startup %}
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-folder-close transparent"></span>
+                            <a href="index.php?path={{ meta["path"] ~ '/..' }}">...</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% for content in meta.contents %}
+                    <tr>
+                        <td>
+                            {% if content["is_dir"] %}
+                                <span class="glyphicon glyphicon-folder-close"></span>
+                                <a href="index.php?path={{ content["path"] }}">
+                            {% else %}
+                                <span class="glyphicon glyphicon-file"></span>
+                                <a href="download.php?path={{ content["path"] }}">
+                            {% endif %}
+                                {{ content["path"][meta["path"] | length + 1 :] }}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <br/>
+        <center>
+            <a href="dropbox.php?path={{ path }}" target="_blank"><button class="btn btn-default dropbox-link"><i class="fa fa-dropbox dropbox-icon" aria-hidden="true"></i>Open in Dropbox</button></a>
+        </center>
+        </div>
+        <div class="col-md-3">
+        </div>
+        </div>
+        <div class="footer">
+            <div class="container">
+                <center class="footer-content">&copy; 2017 <a href="https://github.com/Jan-Kruse/DropboxViewProxy">Jan Kruse</a></center>
+            </div>
+        </div>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+</html>

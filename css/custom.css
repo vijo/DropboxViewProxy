@@ -1,0 +1,41 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 75px;
+}
+
+table.table {
+    width: 100%;
+}
+
+span.glyphicon {
+    padding-right: 15px;
+}
+
+span.transparent {
+    color: transparent;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    background-color: #f8f8f8;
+}
+
+.footer-content {
+    margin-top: 20px;
+}
+
+.dropbox-link {
+    background-color: #1087dd;
+    color: white;
+}
+
+.dropbox-icon {
+    margin-right: 15px;
+}

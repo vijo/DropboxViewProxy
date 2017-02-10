@@ -1,10 +1,17 @@
 <?php
-
-	require_once "lib/Dropbox/autoload.php";
+    require_once 'vendor/autoload.php';
+    require_once "lib/Dropbox/autoload.php";
 	require_once "config/config.php";
-    
-	use \Dropbox as dbx;
-	
+
+    use \Dropbox as dbx;
+
+    Twig_Autoloader::register();
+
+    $loader = new Twig_Loader_Filesystem('twig');
+    $twig = new Twig_Environment($loader, array(
+        'cache' => 'twigcache',
+    ));
+
 	$path = STARTUP_PATH;
 	
 	if(!empty($_GET['path'])) {
@@ -15,69 +22,10 @@
 	
 	$folderMetadata = $dbxClient->getMetadataWithChildren($path);
 
-	echo '
-	<html>
-		<head>
-			<link rel="stylesheet" href="css/bootstrap.min.css">
-            
-            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        </head>
-		<body>
-			<br/>
-			<br/>
-			<center><h1>' . DROPBOX_NAME . '</h1></center>
-			<br/>
-			<br/>
-			<div class="col-md-3">
-			</div>
-			<div class="col-md-6">
-			<div class="table table-responsive table-striped">
-				<table class="table" style="width:100%">
-					<thead>
-						<th>Pfad</th>
-					</thead>
-					<tbody>
-	';
-                        if($folderMetadata["path"] != "/")
-                        {
-						    echo '<tr>';
-						    echo '<td>';
-						    echo '<span class="glyphicon glyphicon-folder-close" style="padding-right: 15px; color: transparent;"></span>';
-						    echo '<a href="index.php?path=' . $path . "/.." . '">...</a>';
-						    echo '</td>';
-						    echo '</tr>';
-                        }
-						
-						foreach($folderMetadata["contents"] as $content) {
-							echo '<tr>';
-							echo '<td>';
-							if($content["is_dir"] == true) {
-								echo '<span class="glyphicon glyphicon-folder-close" style="padding-right: 15px"></span>';
-								echo '<a href="index.php?path=' . $content["path"] . '">';
-							}
-							else {
-								echo '<span class="glyphicon glyphicon-file" style="padding-right: 15px"></span>';
-								echo '<a href="download.php?path=' . $content["path"] . '">';
-							}
-                            echo substr($content["path"], strrpos($content["path"], '/') + 1);
-							echo '</a>';
-							echo '</td>';
-							echo '</tr>';
-						}
-	echo '
-					</tbody>
-				</table>
-			</div>
-			</div>
-			<div class="col-md-3">
-			</div>
-            <div class="navbar navbar-default navbar-fixed-bottom">
-                <div class="container">
-                    <center style="margin-top: 15px">&copy; 2016 Jan Kruse</center>
-                </div>
-            </div>
-            <script src="js/bootstrap.min.js" />
-		</body>
-	</html>
-	';
+	echo $twig->render('index.twig', array(
+		'title' => DROPBOX_NAME,
+		'path' => $path,
+		'meta' => $folderMetadata,
+		'startup' => STARTUP_PATH
+	));
 ?>
