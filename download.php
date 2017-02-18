@@ -11,18 +11,20 @@
 		
 		$dbxClient = new dbx\Client(AUTH_KEY, "PHP-Example/1.0");
 		
-		$f = fopen("tmpfiles/" . $filename, "w+b");
+		$f = tmpfile();
+		$metaDatas = stream_get_meta_data($f);
+		$tmpFilename = $metaDatas['uri'];
 		$fileMetadata = $dbxClient->getFile($path, $f);
-		fclose($f);
 		
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename="'.basename("tmpfiles/" . $filename).'"');
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
-		header('Content-Length: ' . filesize("tmpfiles/" . $filename));
-		readfile("tmpfiles/" . $filename);
+		header('Content-Length: ' . filesize($tmpFilename));
+		readfile($tmpFilename);
+		fclose($f);
 		exit;
 	}
 	
